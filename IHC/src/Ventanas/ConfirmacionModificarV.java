@@ -6,6 +6,7 @@
 package Ventanas;
 
 import java.awt.Color;
+import javax.swing.JDialog;
 
 /**
  *
@@ -15,16 +16,37 @@ public class ConfirmacionModificarV extends javax.swing.JDialog
 {
 
     public static String[] arr = null;
+    public int opc = 0;
 
     /**
      * Creates new form ErrorCampos
+     *
+     * @param parent
+     * @param modal
+     * @param opc
      */
-    public ConfirmacionModificarV(java.awt.Dialog parent, boolean modal)
+    public ConfirmacionModificarV(java.awt.Dialog parent, boolean modal, int opc)
     {
         super(parent, modal);
         initComponents();
         jButton1.setBackground(new Color(0, 0, 0, 0));
-        arr = VtnModifica.arr;
+        System.out.println("OPC VALE:" + opc);
+        this.opc = opc;
+        switch (opc)
+        {
+            case 1:
+                arr = VtnModifica.arr;
+                break;
+            case 2:
+                arr = VtnModificaInv.arr;
+                break;
+        }
+
+    }
+
+    private ConfirmacionModificarV(JDialog jDialog, boolean b)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -189,9 +211,23 @@ public class ConfirmacionModificarV extends javax.swing.JDialog
     private void btnConfirmarEliActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnConfirmarEliActionPerformed
     {//GEN-HEADEREND:event_btnConfirmarEliActionPerformed
         this.dispose();
-        VtnModifica.cierra();
-        metodosBaseDatos.MetodosCRUD.confirmacionmod = 1;
-        metodosBaseDatos.MetodosCRUD.arr = arr;
+
+        switch (opc)
+        {
+            case 1:
+                VtnModifica.cierra();
+                metodosBaseDatos.MetodosCRUD.confirmacionmod = 1;
+                metodosBaseDatos.MetodosCRUD.arr = arr;
+                break;
+            case 2:
+                VtnModificaInv.cierra();
+                metodosBaseDatos.MetodosCRUD.confirmacionmod = 1;
+                metodosBaseDatos.MetodosCRUD.arr = arr;
+                break;
+            default:
+                throw new AssertionError();
+        }
+
     }//GEN-LAST:event_btnConfirmarEliActionPerformed
 
     /**

@@ -54,7 +54,7 @@ public class VtnModifica extends javax.swing.JDialog
      * @param color
      * @param tamaño
      */
-    public VtnModifica(String registro, String nombre, byte[] anv, byte[] rev, byte[] tc, String placas, String marca, String color, String tamaño)
+    public VtnModifica(String registro, String nombre, byte[] anv, byte[] rev, byte[] tc, String placas, String color, String marca, String tamaño)
     {
         initComponents();
         setLocationRelativeTo(null);
@@ -689,8 +689,9 @@ public class VtnModifica extends javax.swing.JDialog
             arr[6] = jTMarca.getText();
             arr[7] = jCTamaño.getSelectedItem().toString();
 
-            ConfirmacionModificarV confirma = new ConfirmacionModificarV(this, true);
+            ConfirmacionModificarV confirma = new ConfirmacionModificarV(this, true, 1);
             ConfirmacionModificarV.arr = arr;
+
             confirma.setModal(true);
             confirma.setVisible(true);
         } else

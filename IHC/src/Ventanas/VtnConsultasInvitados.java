@@ -297,10 +297,8 @@ public class VtnConsultasInvitados extends javax.swing.JFrame
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnModificarActionPerformed
     {//GEN-HEADEREND:event_btnModificarActionPerformed
-        /*VtnModifica mod = new VtnModifica();
-        mod.setModal(true);
-        mod.setVisible(true);
-*/
+        MetodosCRUD.actualizaBD(2, tblVhInvitados.getModel());
+        tblVhInvitados.setModel(MetodosCRUD.consultaBD(2));
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton9ActionPerformed

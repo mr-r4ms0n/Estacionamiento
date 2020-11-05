@@ -5,10 +5,10 @@
  */
 package metodosBaseDatos;
 
-import Ventanas.ConfirmacionModificarV;
 import Ventanas.VtnConsultasInvitados;
 import Ventanas.VtnConsultasIncorporados;
 import Ventanas.VtnModifica;
+import Ventanas.VtnModificaInv;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -536,7 +536,7 @@ public class MetodosCRUD
                             {
                                 sentencia = conexion.prepareStatement("SELECT * FROM vehiculosincorporados WHERE registro = ? ");
                                 sentencia.setInt(1, Integer.parseInt(mdl.getValueAt(i, 0).toString()));
-                                System.out.println(mdl.getValueAt(i, 0).toString());
+                                //System.out.println(mdl.getValueAt(i, 0).toString());
                                 resultado = sentencia.executeQuery();
                                 if (resultado.next())
                                 {
@@ -557,7 +557,6 @@ public class MetodosCRUD
                                             System.out.println(arr[j]);
                                         }
                                          */
-                                        System.out.println("Entre");
                                         sentencia = conexion.prepareStatement("UPDATE vehiculosincorporados SET nombre = ?,credencialAnv = ?,credencialRev = ?,tarjetaCirculacion = ?,placas = ?,color = ?,marca = ?,tamanio = ? WHERE registro = ?");
                                         sentencia.setString(1, arr[0]);
                                         if (arr[1] != null)
@@ -609,7 +608,42 @@ public class MetodosCRUD
                         }
                         break;
                     case 2:
-                        //caso de invitados
+                        for (int i = 0; i < n; i++)
+                        {
+                            confirmacionmod=0;
+                            if (mdl.getValueAt(i, 7).toString().equals("true"))
+                            {
+                                sentencia = conexion.prepareStatement("SELECT * FROM vehiculosinvitados WHERE registro = ? ");
+                                sentencia.setInt(1, Integer.parseInt(mdl.getValueAt(i, 0).toString()));
+                                resultado = sentencia.executeQuery();
+                                if (resultado.next())
+                                {
+                                    String estado = resultado.getString(7);
+                                    VtnModificaInv vtn = new VtnModificaInv(resultado.getString(1), resultado.getString(2), resultado.getString(3), resultado.getString(4), resultado.getString(5), resultado.getString(6));
+                                    vtn.setModal(true);
+                                    vtn.setVisible(true);
+                                    if (confirmacionmod == 1)
+                                    {
+                                        sentencia = conexion.prepareStatement("UPDATE vehiculosinvitados SET nombre = ?,placas = ?,color = ?,marca = ?,tamanio = ?,estado = ? WHERE registro = ?");
+                                        sentencia.setString(1, arr[0]);
+                                        sentencia.setString(2, arr[1]);
+                                        sentencia.setString(3, arr[2]);
+                                        sentencia.setString(4, arr[3]);
+                                        sentencia.setString(5, arr[4]);
+                                        sentencia.setString(6, estado);
+                                        sentencia.setInt(7, Integer.parseInt(mdl.getValueAt(i, 0).toString()));
+                                        int f = sentencia.executeUpdate();
+                                        if (f > 0)
+                                        {
+                                            JOptionPane.showMessageDialog(null, "Datos de invitado actualizados correctamente.");
+                                        } else
+                                        {
+                                            JOptionPane.showMessageDialog(null, "Datos NO actualizados correctamente.");
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         break;
 
                 }
