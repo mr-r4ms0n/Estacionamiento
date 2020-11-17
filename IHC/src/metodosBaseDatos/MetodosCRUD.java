@@ -610,7 +610,7 @@ public class MetodosCRUD
                     case 2:
                         for (int i = 0; i < n; i++)
                         {
-                            confirmacionmod=0;
+                            confirmacionmod = 0;
                             if (mdl.getValueAt(i, 7).toString().equals("true"))
                             {
                                 sentencia = conexion.prepareStatement("SELECT * FROM vehiculosinvitados WHERE registro = ? ");
@@ -674,6 +674,7 @@ public class MetodosCRUD
     public static int verify_CAS(String cad)
     {
         int ret = 0;
+        System.out.println("CAD == " + cad);
         try
         {
             conexion = ConexionBD.conectar();

@@ -213,7 +213,10 @@ public class VtnIngreso extends javax.swing.JFrame
 
     private void jTFUsuarioFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTFUsuarioFocusLost
     {//GEN-HEADEREND:event_jTFUsuarioFocusLost
-        jTFUsuario.setText("Ingrese ID de usuario");
+        if (jTFUsuario.getText().isEmpty())
+        {
+            jTFUsuario.setText("Ingrese ID de usuario");
+        } 
     }//GEN-LAST:event_jTFUsuarioFocusLost
 
     private void jTFUsuarioFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTFUsuarioFocusGained
