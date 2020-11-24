@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -35,11 +36,11 @@ public class VtnModifica extends javax.swing.JDialog
     String credencialAnver = "";
     String credencialRever = "";
     String tarjCirculacion = "";
-
-    //Lectura de imagenes desde la base de datos
+    
     BufferedImage img1;
     BufferedImage img2;
     BufferedImage img3;
+    //Lectura de imagenes desde la base de datos
 
     /**
      * Creates new form VtnRegistro
@@ -54,7 +55,7 @@ public class VtnModifica extends javax.swing.JDialog
      * @param color
      * @param tamaño
      */
-    public VtnModifica(String registro, String nombre, byte[] anv, byte[] rev, byte[] tc, String placas, String color, String marca, String tamaño)
+    public VtnModifica(String registro,String codigo_b, String nombre, byte[] anv, byte[] rev, byte[] tc, String placas, String color, String marca, String tamaño)
     {
         initComponents();
         setLocationRelativeTo(null);
@@ -86,7 +87,7 @@ public class VtnModifica extends javax.swing.JDialog
             jPanel3.updateUI();
         } catch (IOException e)
         {
-
+            System.out.println("ERROR DE IMAGEN"+e);
         }
     }
 
@@ -130,7 +131,7 @@ public class VtnModifica extends javax.swing.JDialog
         jPanel4 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
-        jTNombre4 = new javax.swing.JTextField();
+        jTCode = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
@@ -330,26 +331,26 @@ public class VtnModifica extends javax.swing.JDialog
         jButton6.setText("Agregar");
         jButton6.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, java.awt.Color.black, java.awt.Color.black));
 
-        jTNombre4.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
-        jTNombre4.setForeground(new java.awt.Color(0, 80, 0));
-        jTNombre4.setText("Aquí se mostrará el código de barras");
-        jTNombre4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 80, 0), 2));
-        jTNombre4.addFocusListener(new java.awt.event.FocusAdapter()
+        jTCode.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        jTCode.setForeground(new java.awt.Color(0, 80, 0));
+        jTCode.setText("Aquí se mostrará el código de barras");
+        jTCode.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 80, 0), 2));
+        jTCode.addFocusListener(new java.awt.event.FocusAdapter()
         {
             public void focusGained(java.awt.event.FocusEvent evt)
             {
-                jTNombre4FocusGained(evt);
+                jTCodeFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt)
             {
-                jTNombre4FocusLost(evt);
+                jTCodeFocusLost(evt);
             }
         });
-        jTNombre4.addKeyListener(new java.awt.event.KeyAdapter()
+        jTCode.addKeyListener(new java.awt.event.KeyAdapter()
         {
             public void keyTyped(java.awt.event.KeyEvent evt)
             {
-                jTNombre4KeyTyped(evt);
+                jTCodeKeyTyped(evt);
             }
         });
 
@@ -360,7 +361,7 @@ public class VtnModifica extends javax.swing.JDialog
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(28, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTNombre4, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTCode, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -375,7 +376,7 @@ public class VtnModifica extends javax.swing.JDialog
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
                 .addGap(18, 18, 18)
-                .addComponent(jTNombre4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -718,9 +719,9 @@ public class VtnModifica extends javax.swing.JDialog
         this.dispose();
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    private void jTNombre4KeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTNombre4KeyTyped
-    {//GEN-HEADEREND:event_jTNombre4KeyTyped
-        if (jTNombre4.getText().length() == 12)
+    private void jTCodeKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTCodeKeyTyped
+    {//GEN-HEADEREND:event_jTCodeKeyTyped
+        if (jTCode.getText().length() == 12)
         {
             evt.consume();
         } else
@@ -734,7 +735,7 @@ public class VtnModifica extends javax.swing.JDialog
                 evt.setKeyChar('\b');
             }
         }
-    }//GEN-LAST:event_jTNombre4KeyTyped
+    }//GEN-LAST:event_jTCodeKeyTyped
 
     private void jBanvActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jBanvActionPerformed
     {//GEN-HEADEREND:event_jBanvActionPerformed
@@ -770,15 +771,15 @@ public class VtnModifica extends javax.swing.JDialog
         }
     }//GEN-LAST:event_jBtcActionPerformed
 
-    private void jTNombre4FocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTNombre4FocusGained
-    {//GEN-HEADEREND:event_jTNombre4FocusGained
-        jTNombre4.setText(null);
-    }//GEN-LAST:event_jTNombre4FocusGained
+    private void jTCodeFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTCodeFocusGained
+    {//GEN-HEADEREND:event_jTCodeFocusGained
+        jTCode.setText(null);
+    }//GEN-LAST:event_jTCodeFocusGained
 
-    private void jTNombre4FocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTNombre4FocusLost
-    {//GEN-HEADEREND:event_jTNombre4FocusLost
-        jTNombre4.setText("Aquí se mostrará el código de barras");
-    }//GEN-LAST:event_jTNombre4FocusLost
+    private void jTCodeFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTCodeFocusLost
+    {//GEN-HEADEREND:event_jTCodeFocusLost
+        jTCode.setText("Aquí se mostrará el código de barras");
+    }//GEN-LAST:event_jTCodeFocusLost
 
     private void jTNombreFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTNombreFocusGained
     {//GEN-HEADEREND:event_jTNombreFocusGained
@@ -994,10 +995,10 @@ public class VtnModifica extends javax.swing.JDialog
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextField jTCode;
     private javax.swing.JTextField jTColor;
     private javax.swing.JTextField jTMarca;
     private javax.swing.JTextField jTNombre;
-    private javax.swing.JTextField jTNombre4;
     private javax.swing.JTextField jTPlacas;
     private javax.swing.JLabel lblCredencialAnver;
     private javax.swing.JLabel lblCredencialRever;

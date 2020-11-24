@@ -2,7 +2,9 @@ package Ventanas;
 
 import Validaciones.Caracteres;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import javax.swing.JDialog;
+import jbarcodebean.JBarcodeBean;
 
 public class VtnInvitado extends javax.swing.JDialog
 {
@@ -13,6 +15,8 @@ public class VtnInvitado extends javax.swing.JDialog
     String marca = "";
     String tamanio = "";
     public static JDialog vtn;
+    JBarcodeBean barcode = new JBarcodeBean();
+    public static BufferedImage imagen = null;
 
     public VtnInvitado()
     {
@@ -399,7 +403,7 @@ public class VtnInvitado extends javax.swing.JDialog
                 || jComboBox1.getSelectedItem().equals("Grande"))))
         {
             //Guardado en BD vehiculos invitados
-            metodosBaseDatos.MetodosCRUD.guardaBD(nombre, placas, color, marca, tamanio);
+            metodosBaseDatos.MetodosCRUD.guardaBD(,nombre, placas, color, marca, tamanio);
             /////////////////////////////////////////////////////////////////////////////
             VtnCBarras codigo = new VtnCBarras(null, true);
             codigo.setModal(true);

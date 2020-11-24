@@ -195,21 +195,21 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
         jTableIncidencias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String []
             {
-                "Numero de Registro", "Nombre del Incorporado", "Placas del Vehiculo", "Marca del Vehiculo", "Color del Vehiculo", "Tamaño", "Hora de Entrada", "Hora de Salida"
+                "Nombre del Incorporado", "Placas del Vehiculo", "Marca del Vehiculo", "Color del Vehiculo", "Tamaño", "Hora de Entrada", "Hora de Salida"
             }
         )
         {
             boolean[] canEdit = new boolean []
             {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex)

@@ -97,6 +97,7 @@ public class MetodosCRUD
     /**
      * Metodo para guardar en la tabla "vehiculosincorporados"
      *
+     * @param codigo_b
      * @param nomb Nombre del incorporado
      * @param rutaCredAnv Ruta del archivo de la credencial anverso
      * @param rutaCredRev Ruta del archivo de la credencial reverso
@@ -106,7 +107,7 @@ public class MetodosCRUD
      * @param color Color del Vehiculo
      * @param tamanio Tamaño del vehiculo
      */
-    public static void guardaBD(String nomb, String rutaCredAnv, String rutaCredRev, String rutaTarjCirc, String placas, String color, String marca, String tamanio)
+    public static void guardaBD(String codigo_b,String nomb, String rutaCredAnv, String rutaCredRev, String rutaTarjCirc, String placas, String color, String marca, String tamanio)
     {
         try
         {
@@ -121,20 +122,21 @@ public class MetodosCRUD
             ////////////////////////////////////////////////////////////////////////////////////////
             conexion = ConexionBD.conectar();
             String consulta = "INSERT INTO vehiculosincorporados "
-                    + "(nombre,credencialAnv,credencialRev,tarjetaCirculacion,placas,color,marca,tamanio) "
-                    + "VALUES (?,?,?,?,?,?,?,?)";
+                    + "(codigo_b,nombre,credencialAnv,credencialRev,tarjetaCirculacion,placas,color,marca,tamanio) "
+                    + "VALUES (?,?,?,?,?,?,?,?,?)";
             sentencia = conexion.prepareStatement(consulta);
-            sentencia.setString(1, nomb);
+            sentencia.setString(1, codigo_b);
+            sentencia.setString(2, nomb);
             FileInputStream fcAnv = new FileInputStream(cAnv); //Permite leer el archivo en binario
-            sentencia.setBinaryStream(2, fcAnv); //Esto inserta la imagen del archivo binario de la credencial Anverso
+            sentencia.setBinaryStream(3, fcAnv); //Esto inserta la imagen del archivo binario de la credencial Anverso
             FileInputStream fcRev = new FileInputStream(cRev); //Permite leer el archivo en binario
-            sentencia.setBinaryStream(3, fcRev); //Esto inserta la imagen del archivo binario de la credencial Reverso
+            sentencia.setBinaryStream(4, fcRev); //Esto inserta la imagen del archivo binario de la credencial Reverso
             FileInputStream ftrjC = new FileInputStream(trjC); //Permite leer el archivo en binario
-            sentencia.setBinaryStream(4, ftrjC); //Esto inserta la imagen del archivo binario de la credencial tarjeta de circulacion
-            sentencia.setString(5, placas);
-            sentencia.setString(6, color);
-            sentencia.setString(7, marca);
-            sentencia.setString(8, tamanio);
+            sentencia.setBinaryStream(5, ftrjC); //Esto inserta la imagen del archivo binario de la credencial tarjeta de circulacion
+            sentencia.setString(6, placas);
+            sentencia.setString(7, color);
+            sentencia.setString(8, marca);
+            sentencia.setString(9, tamanio);
             int i = sentencia.executeUpdate();
             if (i > 0)
             {
@@ -162,28 +164,30 @@ public class MetodosCRUD
     /**
      * Metodo para guardar en la tabla "vehiculosinvitados"
      *
+     * @param codigo_b
      * @param nomb Nombre del invitado
      * @param placas Placas del cehiculo del invitado
      * @param color Color del vehiculo invitado
      * @param marca Marca del vehiculo invitado
      * @param tamanio Tamaño del vehiculo invitado
      */
-    public static void guardaBD(String nomb, String placas, String color, String marca, String tamanio)
+    public static void guardaBD(String codigo_b,String nomb, String placas, String color, String marca, String tamanio)
     {
         try
         {
             System.out.println("En guarda BD");
             conexion = ConexionBD.conectar();
             String consulta = "INSERT INTO vehiculosinvitados "
-                    + "(nombre,placas,color,marca,tamanio,estado) "
-                    + "VALUES (?,?,?,?,?,?)";
+                    + "(codigo_b,nombre,placas,color,marca,tamanio,estado) "
+                    + "VALUES (?,?,?,?,?,?,?)";
             sentencia = conexion.prepareStatement(consulta);
-            sentencia.setString(1, nomb);
-            sentencia.setString(2, placas);
-            sentencia.setString(3, color);
-            sentencia.setString(4, marca);
-            sentencia.setString(5, tamanio);
-            sentencia.setString(6, "ACTIVADO");
+            sentencia.setString(1, codigo_b);
+            sentencia.setString(2, nomb);
+            sentencia.setString(3, placas);
+            sentencia.setString(4, color);
+            sentencia.setString(5, marca);
+            sentencia.setString(6, tamanio);
+            sentencia.setString(7, "ACTIVADO");
             int i = sentencia.executeUpdate();
             if (i > 0)
             {
@@ -515,6 +519,7 @@ public class MetodosCRUD
 
     public static void actualizaBD(int opc, TableModel mdl)
     {
+        
         byte[] imagen1;
         byte[] imagen2;
         byte[] imagen3;
@@ -540,13 +545,13 @@ public class MetodosCRUD
                                 resultado = sentencia.executeQuery();
                                 if (resultado.next())
                                 {
-                                    Blob i1 = resultado.getBlob(3);
-                                    Blob i2 = resultado.getBlob(4);
-                                    Blob i3 = resultado.getBlob(5);
+                                    Blob i1 = resultado.getBlob(4);
+                                    Blob i2 = resultado.getBlob(5);
+                                    Blob i3 = resultado.getBlob(6);
                                     imagen1 = i1.getBytes(1, (int) i1.length());
                                     imagen2 = i2.getBytes(1, (int) i2.length());
                                     imagen3 = i3.getBytes(1, (int) i3.length());
-                                    VtnModifica vtn = new VtnModifica(resultado.getString(1), resultado.getString(2), imagen1, imagen2, imagen3, resultado.getString(6), resultado.getString(7), resultado.getString(8), resultado.getString(9));
+                                    VtnModifica vtn = new VtnModifica(resultado.getString(1),resultado.getString(2), resultado.getString(3), imagen1, imagen2, imagen3, resultado.getString(7), resultado.getString(8), resultado.getString(9), resultado.getString(10));
                                     vtn.setModal(true);
                                     vtn.setVisible(true);
                                     if (confirmacionmod == 1)

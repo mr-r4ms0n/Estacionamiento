@@ -2,8 +2,12 @@ package Ventanas;
 
 import Validaciones.Caracteres;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import jbarcodebean.JBarcodeBean;
 import metodosBaseDatos.MetodosCRUD;
+import net.sourceforge.jbarcodebean.model.Interleaved25;
 
 public class VtnRegistroVhIncorp extends javax.swing.JDialog
 {
@@ -20,6 +24,9 @@ public class VtnRegistroVhIncorp extends javax.swing.JDialog
     String color = "";
     String marca = "";
     String tamanio = "";
+
+    JBarcodeBean barcode = new JBarcodeBean();
+    public static BufferedImage imagen = null;
 
     /**
      * Creates new form VtnRegistro
@@ -76,6 +83,7 @@ public class VtnRegistroVhIncorp extends javax.swing.JDialog
         jTPlacas = new javax.swing.JTextField();
         jTMarca = new javax.swing.JTextField();
         jTColor = new javax.swing.JTextField();
+        lblCode = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -281,8 +289,15 @@ public class VtnRegistroVhIncorp extends javax.swing.JDialog
         jButton6.setBackground(new java.awt.Color(0, 80, 0));
         jButton6.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Agregar");
+        jButton6.setText("Visualizar");
         jButton6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 80, 0), 2));
+        jButton6.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jTNombre4.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
         jTNombre4.setForeground(new java.awt.Color(0, 80, 0));
@@ -461,6 +476,8 @@ public class VtnRegistroVhIncorp extends javax.swing.JDialog
             }
         });
 
+        lblCode.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 80, 0), 3));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -504,26 +521,28 @@ public class VtnRegistroVhIncorp extends javax.swing.JDialog
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jTPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(cBTamanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTColor, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, Short.MAX_VALUE)))))
-                        .addGap(60, 60, 60)))
+                                            .addComponent(jTPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jTColor, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jTMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cBTamanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(72, 72, 72)))))
+                        .addGap(26, 26, 26)))
                 .addContainerGap())
             .addComponent(jSeparator1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(211, 211, 211))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(276, 276, 276))))
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(276, 276, 276))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(88, 88, 88)
+                .addComponent(lblCode, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -546,22 +565,28 @@ public class VtnRegistroVhIncorp extends javax.swing.JDialog
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cBTamanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))
-                        .addGap(21, 21, 21)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jTPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11))
+                                .addGap(21, 21, 21)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel12)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(cBTamanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(33, 33, 33)
+                        .addComponent(lblCode, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -606,7 +631,7 @@ public class VtnRegistroVhIncorp extends javax.swing.JDialog
                 || cBTamanio.getSelectedItem().equals("Grande")))
         {
             //Proceso de guardar en la BD
-            MetodosCRUD.guardaBD(nombre, credencialAnver, credencialRever, tarjCirculacion, placas, color, marca, tamanio);
+            MetodosCRUD.guardaBD(jTNombre4.getText(), nombre, credencialAnver, credencialRever, tarjCirculacion, placas, color, marca, tamanio);
             //Proceso de limpiado de ventana
             lblCredencialAnver.setIcon(null);
             lblCredencialRever.setIcon(null);
@@ -653,7 +678,7 @@ public class VtnRegistroVhIncorp extends javax.swing.JDialog
 
     private void jTNombre4KeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTNombre4KeyTyped
     {//GEN-HEADEREND:event_jTNombre4KeyTyped
-        if (jTNombre4.getText().length() == 12)
+        if (jTNombre4.getText().length() == 7)
         {
             evt.consume();
         } else
@@ -676,7 +701,11 @@ public class VtnRegistroVhIncorp extends javax.swing.JDialog
 
     private void jTNombre4FocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTNombre4FocusLost
     {//GEN-HEADEREND:event_jTNombre4FocusLost
-        jTNombre4.setText("Aquí se mostrará el código de barras");
+        if (jTNombre4.getText().isEmpty())
+        {
+            jTNombre4.setText("Aquí se mostrará el código de barras");
+        }
+        
     }//GEN-LAST:event_jTNombre4FocusLost
 
     private void jTNombreFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTNombreFocusGained
@@ -865,6 +894,21 @@ public class VtnRegistroVhIncorp extends javax.swing.JDialog
         }
     }//GEN-LAST:event_btnCredencialReverActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton6ActionPerformed
+    {//GEN-HEADEREND:event_jButton6ActionPerformed
+        barcode.setCodeType(new Interleaved25());
+        //barcode.setCodeType(new Code39());
+
+        // nuestro valor a codificar y algunas configuraciones mas
+        barcode.setCode(jTNombre4.getText());
+        barcode.setCheckDigit(true);
+
+        imagen = barcode.draw(new BufferedImage(168 , 104, BufferedImage.TYPE_INT_RGB));
+
+        ImageIcon barras = new ImageIcon(imagen);
+        this.lblCode.setIcon(barras);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -942,6 +986,7 @@ public class VtnRegistroVhIncorp extends javax.swing.JDialog
     private javax.swing.JTextField jTNombre;
     private javax.swing.JTextField jTNombre4;
     private javax.swing.JTextField jTPlacas;
+    private javax.swing.JLabel lblCode;
     private javax.swing.JLabel lblCredencialAnver;
     private javax.swing.JLabel lblCredencialRever;
     private javax.swing.JLabel lblNoRegistro;
