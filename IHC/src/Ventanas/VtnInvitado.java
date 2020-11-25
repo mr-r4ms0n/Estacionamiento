@@ -402,12 +402,14 @@ public class VtnInvitado extends javax.swing.JDialog
                 || jComboBox1.getSelectedItem().equals("Mediano")
                 || jComboBox1.getSelectedItem().equals("Grande"))))
         {
-            //Guardado en BD vehiculos invitados
-            metodosBaseDatos.MetodosCRUD.guardaBD(,nombre, placas, color, marca, tamanio);
-            /////////////////////////////////////////////////////////////////////////////
             VtnCBarras codigo = new VtnCBarras(null, true);
             codigo.setModal(true);
             codigo.setVisible(true);
+            //Guardado en BD vehiculos invitados
+            metodosBaseDatos.MetodosCRUD.guardaBD(nombre, placas, color, marca, tamanio);
+            /////////////////////////////////////////////////////////////////////////////
+            
+
         } else
         {
             ErrorCampos codigo = new ErrorCampos(null, true);

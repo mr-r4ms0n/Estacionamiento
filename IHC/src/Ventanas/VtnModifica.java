@@ -46,6 +46,7 @@ public class VtnModifica extends javax.swing.JDialog
      * Creates new form VtnRegistro
      *
      * @param registro
+     * @param codigo_b
      * @param nombre
      * @param anv
      * @param rev
@@ -67,6 +68,7 @@ public class VtnModifica extends javax.swing.JDialog
         this.jTMarca.setText(marca);
         this.jTColor.setText(color);
         this.jCTamaño.setSelectedItem(tamaño);
+        this.jTCode.setText(codigo_b);
         try
         {
             img1 = ImageIO.read(new ByteArrayInputStream(anv));
@@ -130,7 +132,6 @@ public class VtnModifica extends javax.swing.JDialog
         jCTamaño = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
         jTCode = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jButton7 = new javax.swing.JButton();
@@ -249,7 +250,7 @@ public class VtnModifica extends javax.swing.JDialog
             }
         });
 
-        lblCredencialAnver.setText("   Credencial Institucional Anverso");
+        lblCredencialAnver.setText(" Credencial Institucional Anverso");
         lblCredencialAnver.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 80, 0), 3));
 
         lblCredencialRever.setText(" Credencial Institucional Reverso");
@@ -325,16 +326,11 @@ public class VtnModifica extends javax.swing.JDialog
         jLabel13.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
         jLabel13.setText("Codigo de barras");
 
-        jButton6.setBackground(new java.awt.Color(0, 80, 0));
-        jButton6.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Agregar");
-        jButton6.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, java.awt.Color.black, java.awt.Color.black));
-
+        jTCode.setEditable(false);
         jTCode.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
         jTCode.setForeground(new java.awt.Color(0, 80, 0));
-        jTCode.setText("Aquí se mostrará el código de barras");
         jTCode.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 80, 0), 2));
+        jTCode.setFocusable(false);
         jTCode.addFocusListener(new java.awt.event.FocusAdapter()
         {
             public void focusGained(java.awt.event.FocusEvent evt)
@@ -358,23 +354,21 @@ public class VtnModifica extends javax.swing.JDialog
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap(28, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTCode, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jTCode, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(30, 30, 30))
+                        .addGap(88, 88, 88))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13))
+                .addComponent(jLabel13)
                 .addGap(18, 18, 18)
                 .addComponent(jTCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(26, Short.MAX_VALUE))
@@ -974,7 +968,6 @@ public class VtnModifica extends javax.swing.JDialog
     private javax.swing.JButton jBanv;
     private javax.swing.JButton jBrev;
     private javax.swing.JButton jBtc;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jCTamaño;

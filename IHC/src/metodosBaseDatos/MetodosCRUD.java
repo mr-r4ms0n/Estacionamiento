@@ -9,6 +9,7 @@ import Ventanas.VtnConsultasInvitados;
 import Ventanas.VtnConsultasIncorporados;
 import Ventanas.VtnModifica;
 import Ventanas.VtnModificaInv;
+import Ventanas.VtnRecurrencias;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,6 +20,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Base64;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -107,7 +110,7 @@ public class MetodosCRUD
      * @param color Color del Vehiculo
      * @param tamanio Tamaño del vehiculo
      */
-    public static void guardaBD(String codigo_b,String nomb, String rutaCredAnv, String rutaCredRev, String rutaTarjCirc, String placas, String color, String marca, String tamanio)
+    public static void guardaBD(String codigo_b, String nomb, String rutaCredAnv, String rutaCredRev, String rutaTarjCirc, String placas, String color, String marca, String tamanio)
     {
         try
         {
@@ -171,23 +174,22 @@ public class MetodosCRUD
      * @param marca Marca del vehiculo invitado
      * @param tamanio Tamaño del vehiculo invitado
      */
-    public static void guardaBD(String codigo_b,String nomb, String placas, String color, String marca, String tamanio)
+    public static void guardaBD(String nomb, String placas, String color, String marca, String tamanio)
     {
         try
         {
             System.out.println("En guarda BD");
             conexion = ConexionBD.conectar();
             String consulta = "INSERT INTO vehiculosinvitados "
-                    + "(codigo_b,nombre,placas,color,marca,tamanio,estado) "
-                    + "VALUES (?,?,?,?,?,?,?)";
+                    + "(nombre,placas,color,marca,tamanio,estado) "
+                    + "VALUES (?,?,?,?,?,?)";
             sentencia = conexion.prepareStatement(consulta);
-            sentencia.setString(1, codigo_b);
-            sentencia.setString(2, nomb);
-            sentencia.setString(3, placas);
-            sentencia.setString(4, color);
-            sentencia.setString(5, marca);
-            sentencia.setString(6, tamanio);
-            sentencia.setString(7, "ACTIVADO");
+            sentencia.setString(1, nomb);
+            sentencia.setString(2, placas);
+            sentencia.setString(3, color);
+            sentencia.setString(4, marca);
+            sentencia.setString(5, tamanio);
+            sentencia.setString(6, "ACTIVADO");
             int i = sentencia.executeUpdate();
             if (i > 0)
             {
@@ -208,6 +210,80 @@ public class MetodosCRUD
             } catch (SQLException e)
             {
                 System.out.println("Error!!! " + e);
+            }
+        }
+    }
+
+    /**
+     * Guarda en la base de datos en la tabla INCIDENCIAS
+     *
+     * @param codigo_b
+     * @param hora
+     * @param fecha
+     */
+    public static void guardaBD(String codigo_b, String hora, String fecha)
+    {
+        conexion = ConexionBD.conectar();
+        try
+        {
+            sentencia = conexion.prepareStatement("SELECT nombre,placas,marca,tamanio,color FROM vehiculosincorporados WHERE codigo_b = ?");
+            sentencia.setString(1, codigo_b);
+            resultado = sentencia.executeQuery();
+            boolean b1 = resultado.last();
+            System.out.println("last == " + b1);
+            if (!b1)
+            {
+                sentencia = conexion.prepareStatement("SELECT nombre,placas,marca,tamanio,color FROM vehiculosinvitados WHERE codigo_b = ?");
+                sentencia.setString(1, codigo_b);
+                resultado = sentencia.executeQuery();
+            }
+            String nombre = resultado.getString("nombre");
+            String placas = resultado.getString("placas");
+            String marca = resultado.getString("marca");
+            String tamaño = resultado.getString("tamanio");
+            String color = resultado.getString("color");
+            if (!nombre.isEmpty())
+            {
+
+                sentencia = conexion.prepareStatement("SELECT * FROM incidencias WHERE nombre = ? AND salida = 'PENDIENTE'");
+                sentencia.setString(1, nombre);
+                resultado = sentencia.executeQuery();
+
+                if (!resultado.next()) //Entro pero aun no sale el papu
+                {
+                    sentencia = conexion.prepareStatement("INSERT INTO incidencias (nombre,placas,marca,tamanio,color,entrada,salida,fecha) VALUES (?,?,?,?,?,?,?,?)");
+                    sentencia.setString(1, nombre);
+                    sentencia.setString(2, placas);
+                    sentencia.setString(3, marca);
+                    sentencia.setString(4, tamaño);
+                    sentencia.setString(5, color);
+                    sentencia.setString(6, hora);
+                    sentencia.setString(7, "PENDIENTE");
+                    sentencia.setString(8, fecha);
+                    int i = sentencia.executeUpdate();
+                } else   
+                {
+                    int num_registro = resultado.getInt("registro");
+                    sentencia = conexion.prepareStatement("UPDATE incidencias SET salida = ? WHERE registro = ?");
+                    sentencia.setInt(2, num_registro);
+                    sentencia.setString(1, hora);
+                    int i = sentencia.executeUpdate();
+                }
+
+                conexion.close();
+            }
+        } catch (SQLException ex)
+        {
+            System.out.println("ERROR " + ex);
+            Logger.getLogger(MetodosCRUD.class.getName()).log(Level.SEVERE, null, ex);
+        } finally
+        {
+            try
+            {
+                conexion.clearWarnings();
+            } catch (SQLException e)
+            {
+                System.out.println("Error de cierre de conexion" + e);
             }
         }
     }
@@ -238,6 +314,9 @@ public class MetodosCRUD
                     mdl = (DefaultTableModel) VtnConsultasInvitados.tblVhInvitados.getModel();//Colocamos su respectivo model
                     break;
                 case 3://PROXIMAMENTE Caso para las incidencias de vehiculos
+                    sentencia = conexion.prepareStatement("SELECT nombre,placas,marca,tamanio,color,entrada,salida FROM incidencias WHERE fecha = ?");
+                    sentencia.setString(1, VtnRecurrencias.jTFecha.getText());
+                    mdl = (DefaultTableModel) VtnRecurrencias.jTableIncidencias.getModel();//Colocamos su respectivo model
                     break;
             }
             resultado = sentencia.executeQuery();
@@ -267,6 +346,13 @@ public class MetodosCRUD
                         }//Una vez termina el while, model tiene todas las filas insertadas en el  mdl
                         break;
                     case 3://PROXIMAMENTE Llenado de tabla para incidencias
+                        while (resultado.next())
+                        {
+                            mdl.addRow(new Object[]
+                            {
+                                resultado.getString("nombre"), resultado.getString("placas"), resultado.getString("color"), resultado.getString("marca"), resultado.getString("tamanio"), resultado.getString("entrada"), resultado.getString("salida")
+                            });//A nuestro modelo le agregamos las filas con la informacion del Query
+                        }
                         break;
                 }
             }
@@ -519,7 +605,7 @@ public class MetodosCRUD
 
     public static void actualizaBD(int opc, TableModel mdl)
     {
-        
+
         byte[] imagen1;
         byte[] imagen2;
         byte[] imagen3;
@@ -551,7 +637,7 @@ public class MetodosCRUD
                                     imagen1 = i1.getBytes(1, (int) i1.length());
                                     imagen2 = i2.getBytes(1, (int) i2.length());
                                     imagen3 = i3.getBytes(1, (int) i3.length());
-                                    VtnModifica vtn = new VtnModifica(resultado.getString(1),resultado.getString(2), resultado.getString(3), imagen1, imagen2, imagen3, resultado.getString(7), resultado.getString(8), resultado.getString(9), resultado.getString(10));
+                                    VtnModifica vtn = new VtnModifica(resultado.getString(1), resultado.getString(2), resultado.getString(3), imagen1, imagen2, imagen3, resultado.getString(7), resultado.getString(8), resultado.getString(9), resultado.getString(10));
                                     vtn.setModal(true);
                                     vtn.setVisible(true);
                                     if (confirmacionmod == 1)

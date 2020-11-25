@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import metodosBaseDatos.MetodosCRUD;
 
 /**
  *
@@ -87,6 +88,7 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
         hilo = new Thread(this);
         estado = true;
         hilo.start();
+        
     }
 
     /**
@@ -123,9 +125,18 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
         jTFecha = new javax.swing.JTextField();
         jTHora = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jTCodigo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter()
+        {
+            public void windowOpened(java.awt.event.WindowEvent evt)
+            {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
@@ -262,6 +273,35 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
             }
         });
 
+        jButton9.setBackground(new java.awt.Color(0, 80, 0));
+        jButton9.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(255, 255, 255));
+        jButton9.setText("Meter xd");
+        jButton9.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, java.awt.Color.black, java.awt.Color.black));
+        jButton9.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jTCodigo.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        jTCodigo.setForeground(new java.awt.Color(51, 109, 57));
+        jTCodigo.setText("Ingrese aqui su busqueda");
+        jTCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jTCodigo.addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
+                jTCodigoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt)
+            {
+                jTCodigoFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -287,6 +327,10 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(106, 106, 106)
+                .addComponent(jTCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -305,8 +349,10 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -360,6 +406,27 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
     {//GEN-HEADEREND:event_jTNombreFocusLost
         jTNombre.setText("Ingrese aqui su busqueda");
     }//GEN-LAST:event_jTNombreFocusLost
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton9ActionPerformed
+    {//GEN-HEADEREND:event_jButton9ActionPerformed
+        MetodosCRUD.guardaBD(jTCodigo.getText(), jTHora.getText(), jTFecha.getText());
+        jTableIncidencias.setModel(MetodosCRUD.consultaBD(3));
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jTCodigoFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTCodigoFocusGained
+    {//GEN-HEADEREND:event_jTCodigoFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTCodigoFocusGained
+
+    private void jTCodigoFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTCodigoFocusLost
+    {//GEN-HEADEREND:event_jTCodigoFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTCodigoFocusLost
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt)//GEN-FIRST:event_formWindowOpened
+    {//GEN-HEADEREND:event_formWindowOpened
+        jTableIncidencias.setModel(MetodosCRUD.consultaBD(3));
+    }//GEN-LAST:event_formWindowOpened
 
     public static void opaco()
     {
@@ -420,14 +487,16 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
     private javax.swing.JButton jBSalir1;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTFecha;
+    private javax.swing.JTextField jTCodigo;
+    public static javax.swing.JTextField jTFecha;
     private javax.swing.JTextField jTHora;
     private javax.swing.JTextField jTNombre;
-    private javax.swing.JTable jTableIncidencias;
+    public static javax.swing.JTable jTableIncidencias;
     // End of variables declaration//GEN-END:variables
 }
