@@ -10,6 +10,7 @@ import Ventanas.VtnConsultasIncorporados;
 import Ventanas.VtnModifica;
 import Ventanas.VtnModificaInv;
 import Ventanas.VtnRecurrencias;
+import java.applet.AudioClip;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -229,49 +230,62 @@ public class MetodosCRUD
             sentencia = conexion.prepareStatement("SELECT nombre,placas,marca,tamanio,color FROM vehiculosincorporados WHERE codigo_b = ?");
             sentencia.setString(1, codigo_b);
             resultado = sentencia.executeQuery();
-            boolean b1 = resultado.last();
-            System.out.println("last == " + b1);
-            if (!b1)
+            System.out.println("rs incorporado == " + resultado.getRow());
+            if (!resultado.first())
             {
-                sentencia = conexion.prepareStatement("SELECT nombre,placas,marca,tamanio,color FROM vehiculosinvitados WHERE codigo_b = ?");
-                sentencia.setString(1, codigo_b);
+                resultado.beforeFirst();
+                sentencia = conexion.prepareStatement("SELECT nombre,placas,marca,tamanio,color FROM vehiculosinvitados WHERE registro = ?");
+                sentencia.setInt(1, (Integer.parseInt(codigo_b) - 1000000));
                 resultado = sentencia.executeQuery();
+                System.out.println("rs invitado == " + resultado.getRow());
             }
-            String nombre = resultado.getString("nombre");
-            String placas = resultado.getString("placas");
-            String marca = resultado.getString("marca");
-            String tamaño = resultado.getString("tamanio");
-            String color = resultado.getString("color");
-            if (!nombre.isEmpty())
+
+            if (resultado.first())
             {
-
-                sentencia = conexion.prepareStatement("SELECT * FROM incidencias WHERE nombre = ? AND salida = 'PENDIENTE'");
-                sentencia.setString(1, nombre);
-                resultado = sentencia.executeQuery();
-
-                if (!resultado.next()) //Entro pero aun no sale el papu
+                String nombre = resultado.getString("nombre");
+                String placas = resultado.getString("placas");
+                String marca = resultado.getString("marca");
+                String tamaño = resultado.getString("tamanio");
+                String color = resultado.getString("color");
+                if (!nombre.isEmpty())
                 {
-                    sentencia = conexion.prepareStatement("INSERT INTO incidencias (nombre,placas,marca,tamanio,color,entrada,salida,fecha) VALUES (?,?,?,?,?,?,?,?)");
+
+                    sentencia = conexion.prepareStatement("SELECT * FROM incidencias WHERE nombre = ? AND salida = 'PENDIENTE'");
                     sentencia.setString(1, nombre);
-                    sentencia.setString(2, placas);
-                    sentencia.setString(3, marca);
-                    sentencia.setString(4, tamaño);
-                    sentencia.setString(5, color);
-                    sentencia.setString(6, hora);
-                    sentencia.setString(7, "PENDIENTE");
-                    sentencia.setString(8, fecha);
-                    int i = sentencia.executeUpdate();
-                } else   
-                {
-                    int num_registro = resultado.getInt("registro");
-                    sentencia = conexion.prepareStatement("UPDATE incidencias SET salida = ? WHERE registro = ?");
-                    sentencia.setInt(2, num_registro);
-                    sentencia.setString(1, hora);
-                    int i = sentencia.executeUpdate();
-                }
+                    resultado = sentencia.executeQuery();
 
-                conexion.close();
+                    if (!resultado.next()) //Entro pero aun no sale el papu
+                    {
+                        sentencia = conexion.prepareStatement("INSERT INTO incidencias (nombre,placas,marca,tamanio,color,entrada,salida,f_entrada,f_salida) VALUES (?,?,?,?,?,?,?,?,?)");
+                        sentencia.setString(1, nombre);
+                        sentencia.setString(2, placas);
+                        sentencia.setString(3, marca);
+                        sentencia.setString(4, tamaño);
+                        sentencia.setString(5, color);
+                        sentencia.setString(6, hora);
+                        sentencia.setString(7, "PENDIENTE");
+                        sentencia.setString(8, fecha);
+                        sentencia.setString(9, "PENDIENTE");
+                        int i = sentencia.executeUpdate();
+                    } else
+                    {
+                        int num_registro = resultado.getInt("registro");
+                        sentencia = conexion.prepareStatement("UPDATE incidencias SET salida = ?, f_salida = ? WHERE registro = ?");
+                        sentencia.setString(1, hora);
+                        sentencia.setString(2, fecha);
+                        sentencia.setInt(3, num_registro);
+                        int i = sentencia.executeUpdate();
+                    }
+
+                    conexion.close();
+                }
+            }else
+            {
+                Alertas al = new Alertas();
+                al.incorrect(1);
+                JOptionPane.showMessageDialog(VtnRecurrencias.vtn, "Alguien intenta ingresar con un codigo de barras no registrado");
             }
+
         } catch (SQLException ex)
         {
             System.out.println("ERROR " + ex);
@@ -313,10 +327,11 @@ public class MetodosCRUD
                     sentencia = conexion.prepareStatement("SELECT registro,nombre,placas,color,marca,tamanio,estado FROM vehiculosinvitados");
                     mdl = (DefaultTableModel) VtnConsultasInvitados.tblVhInvitados.getModel();//Colocamos su respectivo model
                     break;
-                case 3://PROXIMAMENTE Caso para las incidencias de vehiculos
-                    sentencia = conexion.prepareStatement("SELECT nombre,placas,marca,tamanio,color,entrada,salida FROM incidencias WHERE fecha = ?");
+                case 3://PROXIMAMENTE Caso para las incidencias de vehiculos 
+                    sentencia = conexion.prepareStatement("SELECT * FROM incidencias WHERE f_entrada = ? OR f_salida = ?");
                     sentencia.setString(1, VtnRecurrencias.jTFecha.getText());
-                    mdl = (DefaultTableModel) VtnRecurrencias.jTableIncidencias.getModel();//Colocamos su respectivo model
+                    sentencia.setString(2, VtnRecurrencias.jTFecha.getText());
+                    mdl = (DefaultTableModel) VtnRecurrencias.tblIncidencias.getModel();//Colocamos su respectivo model
                     break;
             }
             resultado = sentencia.executeQuery();
@@ -350,7 +365,7 @@ public class MetodosCRUD
                         {
                             mdl.addRow(new Object[]
                             {
-                                resultado.getString("nombre"), resultado.getString("placas"), resultado.getString("color"), resultado.getString("marca"), resultado.getString("tamanio"), resultado.getString("entrada"), resultado.getString("salida")
+                                resultado.getString("nombre"), resultado.getString("placas"), resultado.getString("marca"), resultado.getString("color"), resultado.getString("tamanio"), resultado.getString("f_entrada"), resultado.getString("entrada"), resultado.getString("f_salida"), resultado.getString("salida")
                             });//A nuestro modelo le agregamos las filas con la informacion del Query
                         }
                         break;
@@ -397,6 +412,10 @@ public class MetodosCRUD
                     mdl = (DefaultTableModel) VtnConsultasInvitados.tblVhInvitados.getModel();//Colocamos su respectivo model
                     break;
                 case 3: //PROXIMAMENTE Caso de las incidencias
+                    sentencia = conexion.prepareStatement("SELECT * FROM incidencias WHERE f_entrada = ? OR f_salida = ?");
+                    sentencia.setString(1, VtnRecurrencias.jTFecha.getText());
+                    sentencia.setString(2, VtnRecurrencias.jTFecha.getText());
+                    mdl = (DefaultTableModel) VtnRecurrencias.tblIncidencias.getModel();//Colocamos su respectivo model
                     break;
             }
             resultado = sentencia.executeQuery();
@@ -441,6 +460,23 @@ public class MetodosCRUD
                         }//Una vez termina el while, model tiene todas las filas insertadas en el  mdl
                         break;
                     case 3://PROXIMAMENTE Llenado de tabla para las incidencias
+                        while (resultado.next())
+                        {
+                            if (resultado.getString("nombre").toUpperCase().startsWith(busq.toUpperCase())
+                                    || resultado.getString("placas").toUpperCase().startsWith(busq.toUpperCase())
+                                    || resultado.getString("color").toUpperCase().startsWith(busq.toUpperCase())
+                                    || resultado.getString("marca").toUpperCase().startsWith(busq.toUpperCase())
+                                    || resultado.getString("tamanio").toUpperCase().startsWith(busq.toUpperCase())
+                                    || resultado.getString("f_entrada").toUpperCase().startsWith(busq.toUpperCase())
+                                    || resultado.getString("f_salida").toUpperCase().startsWith(busq.toUpperCase()))
+                            {
+                                mdl.addRow(new Object[]
+                                {
+                                    resultado.getString("nombre"), resultado.getString("placas"), resultado.getString("marca"), resultado.getString("color"), resultado.getString("tamanio"), resultado.getString("f_entrada"), resultado.getString("entrada"), resultado.getString("f_salida"), resultado.getString("salida")
+                                });//A nuestro modelo le agregamos las filas con la informacion del Query
+                            }
+
+                        }//Una vez termina el while, model tiene todas las filas insertadas en el  mdl
                         break;
                 }
             }
@@ -486,6 +522,10 @@ public class MetodosCRUD
                     mdl = (DefaultTableModel) VtnConsultasInvitados.tblVhInvitados.getModel();//Colocamos su respectivo model
                     break;
                 case 3: //PROXIMAMENTE Caso para las incidencias de vehiculos
+                    sentencia = conexion.prepareStatement("SELECT * FROM incidencias WHERE f_entrada = ? OR f_salida = ?");
+                    sentencia.setString(1, VtnRecurrencias.jTFecha.getText());
+                    sentencia.setString(2, VtnRecurrencias.jTFecha.getText());
+                    mdl = (DefaultTableModel) VtnRecurrencias.tblIncidencias.getModel();//Colocamos su respectivo model
                     break;
             }
             resultado = sentencia.executeQuery();
@@ -521,6 +561,16 @@ public class MetodosCRUD
                         }//Una vez termina el while, model tiene todas las filas insertadas en el  mdl
                         break;
                     case 3: //PROXIMAMENTE Llenado de la tabla para las incidencias de vehiculos 
+                        while (resultado.next())
+                        {
+                            if (resultado.getString(tipo.toLowerCase()).toUpperCase().startsWith(busq.toUpperCase()))
+                            {
+                                mdl.addRow(new Object[]
+                                {
+                                    resultado.getString("nombre"), resultado.getString("placas"), resultado.getString("marca"), resultado.getString("color"), resultado.getString("tamanio"), resultado.getString("f_entrada"), resultado.getString("entrada"), resultado.getString("f_salida"), resultado.getString("salida")
+                                });//A nuestro modelo le agregamos las filas con la informacion del Query
+                            }
+                        }//Una vez termina el while, model tiene todas las filas insertadas en el  mdl
                         break;
                 }
             }
@@ -769,7 +819,7 @@ public class MetodosCRUD
         try
         {
             conexion = ConexionBD.conectar();
-            String consulta = "SELECT ctr FROM usr WHERE ctr = ?";
+            String consulta = "SELECT ctr FROM usr WHERE ctr = BINARY ?";
             sentencia = conexion.prepareStatement(consulta);
             sentencia.setString(1, cad);
             resultado = sentencia.executeQuery();

@@ -8,6 +8,7 @@ package Ventanas;
 import Validaciones.Caracteres;
 import java.awt.Color;
 import java.awt.Window;
+import metodosBaseDatos.Alertas;
 import metodosBaseDatos.MetodosCRUD;
 
 /**
@@ -18,6 +19,7 @@ public class VtnIngreso extends javax.swing.JFrame
 {
 
     public static Window vtn;
+    Alertas al = new Alertas();
 
     public VtnIngreso()
     {
@@ -193,18 +195,20 @@ public class VtnIngreso extends javax.swing.JFrame
         switch (MetodosCRUD.verify_CAS(jTFUsuario.getText()))
         {
             case 1:
+                al.incorrect(2);
                 VtnConsultasIncorporados cons = new VtnConsultasIncorporados();
                 cons.setVisible(true);
                 this.dispose();
                 break;
             case 2:
-                
+                al.incorrect(2);
                 VtnRecurrencias inc = new VtnRecurrencias();
                 inc.setVisible(true);
                 this.dispose();
                 break;
             default:
                 opaco();
+                al.incorrect(3);
                 ErrorLogin err = new ErrorLogin(this, true);
                 err.setVisible(true);
                 break;

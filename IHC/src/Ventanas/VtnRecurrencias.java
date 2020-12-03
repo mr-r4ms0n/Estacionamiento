@@ -5,6 +5,7 @@
  */
 package Ventanas;
 
+import Validaciones.Caracteres;
 import java.awt.Color;
 import java.awt.Window;
 import java.text.SimpleDateFormat;
@@ -118,15 +119,16 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
         jLabel2 = new javax.swing.JLabel();
         jBSalir1 = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        jTNombre = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableIncidencias = new javax.swing.JTable();
+        tblIncidencias = new javax.swing.JTable();
         jButton7 = new javax.swing.JButton();
         jTFecha = new javax.swing.JTextField();
         jTHora = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jTCodigo = new javax.swing.JTextField();
+        cBTipoBusqR = new javax.swing.JComboBox<>();
+        jTBusqueda = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -168,7 +170,7 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 835, Short.MAX_VALUE)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBSalir1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -185,42 +187,29 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
                 .addContainerGap())
         );
 
-        jTNombre.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
-        jTNombre.setForeground(new java.awt.Color(51, 109, 57));
-        jTNombre.setText("Ingrese aqui su busqueda");
-        jTNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        jTNombre.addFocusListener(new java.awt.event.FocusAdapter()
-        {
-            public void focusGained(java.awt.event.FocusEvent evt)
-            {
-                jTNombreFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt)
-            {
-                jTNombreFocusLost(evt);
-            }
-        });
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTableIncidencias.setBackground(new java.awt.Color(51, 109, 57));
-        jTableIncidencias.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
-        jTableIncidencias.setModel(new javax.swing.table.DefaultTableModel(
+        tblIncidencias.setBackground(new java.awt.Color(51, 109, 57));
+        tblIncidencias.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        tblIncidencias.setForeground(new java.awt.Color(255, 255, 255));
+        tblIncidencias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String []
             {
-                "Nombre del Incorporado", "Placas del Vehiculo", "Marca del Vehiculo", "Color del Vehiculo", "Tamaño", "Hora de Entrada", "Hora de Salida"
+                "Nombre del Incorporado", "Placas del Vehiculo", "Marca del Vehiculo", "Color del Vehiculo", "Tamaño", "Fecha de Entrada", "Hora de Entrada", "Fecha de Salida", "Hora de Salida"
             }
         )
         {
             boolean[] canEdit = new boolean []
             {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex)
@@ -228,7 +217,7 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTableIncidencias);
+        jScrollPane1.setViewportView(tblIncidencias);
 
         jButton7.setBackground(new java.awt.Color(0, 80, 0));
         jButton7.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -243,15 +232,19 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
             }
         });
 
+        jTFecha.setEditable(false);
         jTFecha.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         jTFecha.setForeground(new java.awt.Color(139, 116, 1));
         jTFecha.setText("DD-MM-AAAA");
         jTFecha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 80, 0), 2));
+        jTFecha.setFocusable(false);
 
+        jTHora.setEditable(false);
         jTHora.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         jTHora.setForeground(new java.awt.Color(139, 116, 1));
         jTHora.setText("HH:MM:SS");
         jTHora.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 80, 0), 2));
+        jTHora.setFocusable(false);
         jTHora.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -276,7 +269,7 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
         jButton9.setBackground(new java.awt.Color(0, 80, 0));
         jButton9.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
         jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setText("Meter xd");
+        jButton9.setText("Registrar");
         jButton9.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, java.awt.Color.black, java.awt.Color.black));
         jButton9.addActionListener(new java.awt.event.ActionListener()
         {
@@ -288,7 +281,6 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
 
         jTCodigo.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
         jTCodigo.setForeground(new java.awt.Color(51, 109, 57));
-        jTCodigo.setText("Ingrese aqui su busqueda");
         jTCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jTCodigo.addFocusListener(new java.awt.event.FocusAdapter()
         {
@@ -302,36 +294,72 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
             }
         });
 
+        cBTipoBusqR.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cBTipoBusqR.setForeground(new java.awt.Color(255, 255, 255));
+        cBTipoBusqR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Buscar por", "Nombre", "Placas", "Color", "Marca", "Tamanio", "General" }));
+
+        jTBusqueda.setFont(new java.awt.Font("Segoe UI Semibold", 1, 15)); // NOI18N
+        jTBusqueda.setForeground(new java.awt.Color(51, 109, 57));
+        jTBusqueda.setText("Ingrese su busqueda aqui");
+        jTBusqueda.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jTBusqueda.addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
+                jTBusquedaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt)
+            {
+                jTBusquedaFocusLost(evt);
+            }
+        });
+        jTBusqueda.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jTBusquedaActionPerformed(evt);
+            }
+        });
+        jTBusqueda.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
+                jTBusquedaKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(333, Short.MAX_VALUE)
-                        .addComponent(jTNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(250, 250, 250)
+                .addGap(220, 220, 220)
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(140, 140, 140)
+                .addComponent(jTCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cBTipoBusqR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
                         .addComponent(jTFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jTHora, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1))))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(308, 308, 308)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(106, 106, 106)
-                .addComponent(jTCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -342,17 +370,18 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTHora, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cBTipoBusqR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -394,28 +423,18 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
         opaco();
         ConfirmacionRPDF epdf = new ConfirmacionRPDF(this, true);
         epdf.setVisible(true);
-
+        
     }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jTNombreFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTNombreFocusGained
-    {//GEN-HEADEREND:event_jTNombreFocusGained
-        jTNombre.setText(null);
-    }//GEN-LAST:event_jTNombreFocusGained
-
-    private void jTNombreFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTNombreFocusLost
-    {//GEN-HEADEREND:event_jTNombreFocusLost
-        jTNombre.setText("Ingrese aqui su busqueda");
-    }//GEN-LAST:event_jTNombreFocusLost
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton9ActionPerformed
     {//GEN-HEADEREND:event_jButton9ActionPerformed
         MetodosCRUD.guardaBD(jTCodigo.getText(), jTHora.getText(), jTFecha.getText());
-        jTableIncidencias.setModel(MetodosCRUD.consultaBD(3));
+        tblIncidencias.setModel(MetodosCRUD.consultaBD(3));
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jTCodigoFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTCodigoFocusGained
     {//GEN-HEADEREND:event_jTCodigoFocusGained
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jTCodigoFocusGained
 
     private void jTCodigoFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTCodigoFocusLost
@@ -425,8 +444,46 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
 
     private void formWindowOpened(java.awt.event.WindowEvent evt)//GEN-FIRST:event_formWindowOpened
     {//GEN-HEADEREND:event_formWindowOpened
-        jTableIncidencias.setModel(MetodosCRUD.consultaBD(3));
+        tblIncidencias.setModel(MetodosCRUD.consultaBD(3));
     }//GEN-LAST:event_formWindowOpened
+
+    private void jTBusquedaFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTBusquedaFocusGained
+    {//GEN-HEADEREND:event_jTBusquedaFocusGained
+        if (!Caracteres.comparacion(jTBusqueda.getText(), "Ingrese su busqueda aqui"))
+        {
+            jTBusqueda.setText(null);
+        }
+    }//GEN-LAST:event_jTBusquedaFocusGained
+
+    private void jTBusquedaFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jTBusquedaFocusLost
+    {//GEN-HEADEREND:event_jTBusquedaFocusLost
+        if (!Caracteres.comparacion(jTBusqueda.getText(), "Ingrese su busqueda aqui"))
+        {
+            jTBusqueda.setText("Ingrese su busqueda aqui");
+        }
+    }//GEN-LAST:event_jTBusquedaFocusLost
+
+    private void jTBusquedaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jTBusquedaActionPerformed
+    {//GEN-HEADEREND:event_jTBusquedaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTBusquedaActionPerformed
+
+    private void jTBusquedaKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTBusquedaKeyReleased
+    {//GEN-HEADEREND:event_jTBusquedaKeyReleased
+        if (!jTBusqueda.getText().isEmpty())
+        {
+            if (((String) cBTipoBusqR.getSelectedItem()).equals("General") || ((String) cBTipoBusqR.getSelectedItem()).equals("Buscar por"))
+            {
+                tblIncidencias.setModel(MetodosCRUD.consultaBD(3, jTBusqueda.getText()));
+            } else
+            {
+                tblIncidencias.setModel(MetodosCRUD.consultaBD(3, jTBusqueda.getText(), (String) cBTipoBusqR.getSelectedItem()));
+            }
+        } else
+        {
+            tblIncidencias.setModel(MetodosCRUD.consultaBD(3));
+        }
+    }//GEN-LAST:event_jTBusquedaKeyReleased
 
     public static void opaco()
     {
@@ -484,6 +541,7 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cBTipoBusqR;
     private javax.swing.JButton jBSalir1;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -493,10 +551,10 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTBusqueda;
     private javax.swing.JTextField jTCodigo;
     public static javax.swing.JTextField jTFecha;
     private javax.swing.JTextField jTHora;
-    private javax.swing.JTextField jTNombre;
-    public static javax.swing.JTable jTableIncidencias;
+    public static javax.swing.JTable tblIncidencias;
     // End of variables declaration//GEN-END:variables
 }
