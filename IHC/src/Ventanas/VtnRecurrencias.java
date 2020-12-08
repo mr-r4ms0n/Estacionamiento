@@ -8,13 +8,17 @@ package Ventanas;
 import Validaciones.Caracteres;
 import java.awt.Color;
 import java.awt.Window;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import metodosBaseDatos.MetodosCRUD;
+import metodosBaseDatos.Reporte;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -420,10 +424,13 @@ public class VtnRecurrencias extends javax.swing.JFrame implements Runnable
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton8ActionPerformed
     {//GEN-HEADEREND:event_jButton8ActionPerformed
-        opaco();
-        ConfirmacionRPDF epdf = new ConfirmacionRPDF(this, true);
-        epdf.setVisible(true);
-        
+        try
+        {
+            Reporte rp = new Reporte();
+            rp.generaReporte();
+        } catch (Exception e)
+        {
+        }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton9ActionPerformed

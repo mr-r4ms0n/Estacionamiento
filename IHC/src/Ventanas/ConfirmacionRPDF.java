@@ -107,7 +107,7 @@ public class ConfirmacionRPDF extends javax.swing.JDialog
         jTextArea2.setColumns(20);
         jTextArea2.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
         jTextArea2.setRows(5);
-        jTextArea2.setText("Se ha generado correctamente el reporte de registros, \npuede acceder a el en la capeta raíz de instalación.");
+        jTextArea2.setText("Se ha generado correctamente el reporte de registros, \npuede acceder a el en la capeta raíz de instalación o\nde click en el boton aceptar y espere 5 segundos.");
         jTextArea2.setBorder(null);
         jScrollPane2.setViewportView(jTextArea2);
 
@@ -139,11 +139,11 @@ public class ConfirmacionRPDF extends javax.swing.JDialog
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addComponent(jLabel3)
-                        .addGap(21, 21, 21))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)))
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
